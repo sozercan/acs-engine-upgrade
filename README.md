@@ -1,7 +1,7 @@
 # acs-engine-upgrade
 ⚒ Script that upgrades existing ACS Kubernetes clusters
 
-__USE IT ON YOUR OWN RISK - DO NOT USE ON PRODUCTION__
+__USE IT ON YOUR OWN RISK - DO NOT USE IN PRODUCTION__
 
 * Make sure to copy your ssh key into master node so it can ssh into agent nodes
 

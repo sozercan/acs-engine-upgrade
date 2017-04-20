@@ -2,7 +2,7 @@
 CURRENT_VERSION="v1.5.3"
 TARGET_VERSION="v1.6.2"
 SSH_KEY="id_rsa"
-SCRIPT_URL="https://gist.githubusercontent.com/sozercan/fa09f28a2b2d66f3a1143fa04cd19743/raw/ba39560963a65b71e82b8af59d2ed1e6f3f3a34b/acsengine-upgrade.sh"
+SCRIPT_URL="https://gist.githubusercontent.com/sozercan/fa09f28a2b2d66f3a1143fa04cd19743/raw/4c01c80e3ccf4f0d9159875aa61b421790da26d0/acsengine-upgrade.sh"
 
 echo "Upgrading kubectl on master..." && \
 curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && \

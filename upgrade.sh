@@ -1,6 +1,6 @@
 #!/bin/bash
 CURRENT_VERSION="v1.5.3"
-TARGET_VERSION="v1.6.1"
+TARGET_VERSION="v1.6.2"
 SSH_KEY="id_rsa"
 SCRIPT_URL="https://gist.githubusercontent.com/sozercan/fa09f28a2b2d66f3a1143fa04cd19743/raw/ba39560963a65b71e82b8af59d2ed1e6f3f3a34b/acsengine-upgrade.sh"
 

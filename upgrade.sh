@@ -15,7 +15,7 @@ curl -L -sf $SCRIPT_URL | sudo bash
 nodes=$(kubectl get node -o name | grep -o 'k8s-agentpool[1-9]-[0-9]*-[0-9]')
 
 for node in $nodes; do
-    echo "Draining $node..." && kubectl drain $node --ignore-daemonsets && \
+    echo "Draining $node..." && kubectl drain $node --ignore-daemonsets --delete-local-data && \
     ssh -l $(logname) -i /home/$(logname)/.ssh/$SSH_KEY -t -oStrictHostKeyChecking=no $node "echo 'Working on $node...' && curl -L -sf $SCRIPT_URL | sudo bash" && \
     kubectl uncordon $node
 done

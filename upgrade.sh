@@ -13,7 +13,7 @@ echo "Upgrading kubelet and manifests..." && \
 grep -rl hyperkube-amd64:$CURRENT_VERSION /etc/kubernetes | xargs sed -i "s@hyperkube-amd64:$CURRENT_VERSION@hyperkube-amd64:$TARGET_VERSION@g" && \
 curl -L -sf $SCRIPT_URL | sudo bash
 
-nodes=$(kubectl get node -o name | grep -o '$NODES')
+nodes=$(kubectl get node -o name | grep -o $NODES)
 
 for node in $nodes; do
     echo "Cordoning $node..." && kubectl cordon $node

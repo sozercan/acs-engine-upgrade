@@ -17,7 +17,6 @@ fi
 
 SCRIPT_URL="https://raw.githubusercontent.com/ritazh/acs-engine-upgrade/fix-script/acsengine-upgrade.sh"
 SSH_KEY="id_rsa"
-NODES="k8s-agentpool[1-9]-[0-9]*-[0-9]"
 
 echo "Upgrading kubectl on master..." && \
 curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && \
@@ -26,7 +25,7 @@ mv ./kubectl /usr/local/bin/kubectl && \
 echo "Upgrading kubelet and manifests..." && \
 grep -rl hyperkube-amd64:v$CURRENT_VERSION /etc/kubernetes | xargs sed -i "s@hyperkube-amd64:v$CURRENT_VERSION@hyperkube-amd64:v$TARGET_VERSION@g"
 
-nodes=$(kubectl get node -o name | grep -o $NODES)
+nodes=$(kubectl get no -L kubernetes.io/role -l kubernetes.io/role=agent --no-headers -o jsonpath="{.items[*].metadata.name}" | tr " " "\n")
 
 for node in $nodes; do
     echo "Cordoning $node..." && kubectl cordon $node

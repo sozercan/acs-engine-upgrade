@@ -25,7 +25,6 @@ chmod +x ./kubectl && \
 mv ./kubectl /usr/local/bin/kubectl && \
 echo "Upgrading kubelet and manifests..." && \
 grep -rl hyperkube-amd64:v$CURRENT_VERSION /etc/kubernetes | xargs sed -i "s@hyperkube-amd64:v$CURRENT_VERSION@hyperkube-amd64:v$TARGET_VERSION@g"
-curl -LOk $SCRIPT_URL && sudo bash acsengine-upgrade.sh $CURRENT_VERSION $TARGET_VERSION
 
 nodes=$(kubectl get node -o name | grep -o $NODES)
 

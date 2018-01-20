@@ -15,7 +15,7 @@ if [ -z "$TARGET_VERSION" ]; then
   exit 0
 fi
 
-SCRIPT_URL="https://raw.githubusercontent.com/sozercan/acs-engine-upgrade/fix-script/acsengine-upgrade.sh"
+SCRIPT_URL="https://raw.githubusercontent.com/sozercan/acs-engine-upgrade/master/acsengine-upgrade.sh"
 SSH_KEY="id_rsa"
 
 echo "Upgrading kubectl on master..." && \

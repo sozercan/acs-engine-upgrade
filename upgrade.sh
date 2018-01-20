@@ -23,7 +23,6 @@ curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s htt
 chmod +x ./kubectl && \
 mv ./kubectl /usr/local/bin/kubectl && \
 echo "Upgrading kubelet and manifests..." && \
-grep -rl hyperkube-amd64:v$CURRENT_VERSION /etc/kubernetes | xargs sed -i "s@hyperkube-amd64:v$CURRENT_VERSION@hyperkube-amd64:v$TARGET_VERSION@g"
 
 nodes=$(kubectl get no -L kubernetes.io/role -l kubernetes.io/role=agent --no-headers -o jsonpath="{.items[*].metadata.name}" | tr " " "\n")
 
@@ -39,5 +38,9 @@ done
 for node in $nodes; do
     echo "Uncordoning $node..." && kubectl uncordon $node
 done
+
+echo "Updating master"
+grep -rl hyperkube-amd64:v$CURRENT_VERSION /etc/kubernetes | xargs sed -i "s@hyperkube-amd64:v$CURRENT_VERSION@hyperkube-amd64:v$TARGET_VERSION@g"
+curl -LOk $SCRIPT_URL && sudo bash acsengine-upgrade.sh $CURRENT_VERSION $TARGET_VERSION
 
 echo "Upgrade complete!"

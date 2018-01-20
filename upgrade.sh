@@ -31,7 +31,7 @@ for node in $nodes; do
 done
 
 for node in $nodes; do
-    echo "Draining $node...$logname" && kubectl drain $node --ignore-daemonsets && \
+    echo "Draining $node..." && kubectl drain $node --ignore-daemonsets && \
     ssh -l $(logname) -i /home/$(logname)/.ssh/$SSH_KEY -t -oStrictHostKeyChecking=no $node "echo 'Working on $node...' && curl -LOk $SCRIPT_URL && sudo bash acsengine-upgrade.sh $CURRENT_VERSION $TARGET_VERSION"
 done
 

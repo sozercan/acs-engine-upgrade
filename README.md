@@ -21,6 +21,11 @@ git clone https://github.com/sozercan/acs-engine-upgrade
 
 ![before](http://i.imgur.com/Oz2pvFC.png)
 
-`sudo bash upgrade.sh 1.6.12 1.7.7`
+```
+export CURRENT_VERSION=1.6.12
+export TARGET_VERSION=1.9.2
+
+sudo bash upgrade.sh $CURRENT_VERSION $TARGET_VERSION
+```
 
 ![after](http://i.imgur.com/2OjihLM.png)

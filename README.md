@@ -15,8 +15,7 @@ scp -r ~/.ssh/id_rsa* $ADMIN@$CLUSTERNAME.$REGION.cloudapp.azure.com:~/.ssh
 Execute the following on a master node
 
 ```
-sudo apt install unzip
-curl -LOk https://github.com/ritazh/acs-engine-upgrade/archive/master.zip && unzip master.zip && cd acs-engine-upgrade-master
+git clone https://github.com/sozercan/acs-engine-upgrade
 ```
 
 

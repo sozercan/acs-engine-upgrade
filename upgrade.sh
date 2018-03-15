@@ -16,6 +16,7 @@ if [ -z "$TARGET_VERSION" ]; then
 fi
 
 SCRIPT_URL="https://raw.githubusercontent.com/sozercan/acs-engine-upgrade/master/acsengine-upgrade.sh"
+SCRIPT_URL_MASTER="https://raw.githubusercontent.com/sozercan/acs-engine-upgrade/master/master-upgrade.sh"
 SSH_KEY="id_rsa"
 
 echo "Upgrading kubectl on master..." && \
@@ -39,8 +40,18 @@ for node in $nodes; do
     echo "Uncordoning $node..." && kubectl uncordon $node
 done
 
-echo "Updating master"
-grep -rl hyperkube-amd64:v$CURRENT_VERSION /etc/kubernetes | xargs sed -i "s@hyperkube-amd64:v$CURRENT_VERSION@hyperkube-amd64:v$TARGET_VERSION@g"
-curl -LOk $SCRIPT_URL && sudo bash acsengine-upgrade.sh $CURRENT_VERSION $TARGET_VERSION
+echo "Updating all master nodes"
+masternodes=$(kubectl get no -L kubernetes.io/role -l kubernetes.io/role=master --no-headers -o jsonpath="{.items[*].metadata.name}" | tr " " "\n")
+
+for node in $masternodes; do
+    if [ "$HOSTNAME" = $node ]; then
+        echo "upgrading current master $node...without ssh"
+        grep -rl hyperkube-amd64:v$CURRENT_VERSION /etc/kubernetes | xargs sed -i "s@hyperkube-amd64:v$CURRENT_VERSION@hyperkube-amd64:v$TARGET_VERSION@g"
+        curl -LOk $SCRIPT_URL && sudo bash acsengine-upgrade.sh $CURRENT_VERSION $TARGET_VERSION
+    else
+        echo "upgrading master $node...with ssh"
+        ssh -l $(logname) -i /home/$(logname)/.ssh/$SSH_KEY -t -oStrictHostKeyChecking=no $node "echo 'Working on $node...' && curl -LOk $SCRIPT_URL_MASTER && sudo bash master-upgrade.sh $CURRENT_VERSION $TARGET_VERSION"
+    fi
+done
 
 echo "Upgrade complete!"
